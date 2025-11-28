@@ -16,10 +16,11 @@ def sent_detector():
     response = emotion_detector(text_to_analyze)
 
     # Return a formatted string with the sentiment label and score
-    response_list = list(response.items())
-    response_list_formatted = [item[0]*": "*item[1] for item in response_list[0:5]]
-    dom_emo = response_list[5][1]
-    return "For the given statement, the system response is {}. The dominant emotion is {}.".format(response_list_formatted,dom_emo)
+    response_copy = dict(response)
+    del response_copy["dominant_emotion"]
+    response_str = str(response_copy).strip("}{")
+    dom_emo = response["dominant_emotion"]
+    return "For the given statement, the system response is {}. The dominant emotion is <b>{}</b>.".format(response_str, dom_emo)
 
 if __name__ == "__main__":
     app.run(debug = True)
